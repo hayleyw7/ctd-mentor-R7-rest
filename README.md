@@ -1,6 +1,10 @@
 # Implementing APIs in Rails
 
-This repository is the basis for lessons 12, 13, and 14 of the Code the Dream class in Ruby on Rails.  The lesson descriptions are as follows:
+This repository is the basis for lessons 12, 13, and 14 of the Code the Dream class in Ruby on Rails.
+
+**I am a volunteer instructor there, and this an example repo to help each student through the progression of these lessons.**
+
+The lesson descriptions are as follows:
 
 [Lesson 12](/lessons/Lesson-12-Building-an-API.md)  
 [Assignment 12a](/lessons/Assignment-12a-REST-Introduction-and-Authentication.md)  
