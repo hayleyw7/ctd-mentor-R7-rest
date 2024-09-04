@@ -48,8 +48,8 @@ group :development do
 end
 
 
-gem "devise", "~> 4.9"
+gem "devise"
 
-gem "email_validator", "~> 2.2"
+gem "email_validator"
 
-gem "strong_password", "~> 0.0.10"
+gem "strong_password"

@@ -189,13 +189,13 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
-  devise (~> 4.9)
-  email_validator (~> 2.2)
+  devise
+  email_validator
   nio4r!
   puma (~> 5.0)
   rails (~> 7.0.7)
   sqlite3 (~> 1.6)
-  strong_password (~> 0.0.10)
+  strong_password
   tzinfo-data
 
 RUBY VERSION
