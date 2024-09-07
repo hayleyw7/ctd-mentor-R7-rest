@@ -62,7 +62,7 @@ class Api::V1::MembersController < ApplicationController
   end
 
   def member_params
-    params.require(:member).permit(:name, :description) # Adjust permitted params as needed
+    params.require(:member).permit(:first_name, :last_name)
   end
 
   def check_access
