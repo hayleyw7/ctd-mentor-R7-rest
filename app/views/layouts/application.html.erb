@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fact Finder App</title>
+    <p>Application Layout</p>
+    <meta name="csrf-param" content="<%= request_forgery_protection_token %>">
+    <meta name="csrf-token" content="<%= form_authenticity_token %>">
+</head>
+<body>
+  <%= yield %>
+</body>
+</html>

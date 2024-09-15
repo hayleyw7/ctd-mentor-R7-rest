@@ -4,13 +4,11 @@ class Api::V1::MembersController < ApplicationController
   before_action :is_user_logged_in
   before_action :set_member, only: [:show, :update, :destroy]
 
-  # GET /members
   def index
     @members = Member.where(user_id: current_user.id)
     render json: { members: @members }
   end
 
-  # GET /members/:id
   def show
     if check_access
       render json: @member
@@ -19,7 +17,6 @@ class Api::V1::MembersController < ApplicationController
     end
   end
 
-  # POST /members
   def create
     @member = Member.new(member_params)
     @member.user_id = current_user.id
@@ -30,7 +27,6 @@ class Api::V1::MembersController < ApplicationController
     end
   end
 
-  # PUT /members/:id
   def update
     if check_access
       if @member.update(member_params)
@@ -43,9 +39,9 @@ class Api::V1::MembersController < ApplicationController
     end
   end
 
-  # DELETE /members/:id
   def destroy
     if check_access
+      @member.facts.destroy_all
       @member.destroy
       render json: { message: 'Member record successfully deleted.' }, status: :ok
     else
@@ -56,6 +52,7 @@ class Api::V1::MembersController < ApplicationController
   private
 
   def set_member
+    Rails.logger.debug("Finding member with ID: #{params[:id]}")
     @member = Member.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Member not found' }, status: :not_found

@@ -2,24 +2,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   skip_forgery_protection only: [:create]
 
+  def create
+    build_resource(sign_up_params)
+
+    resource.save
+    if resource.persisted?
+      if resource.active_for_authentication?
+        sign_up(resource_name, resource)
+        render json: { message: 'You are signed up.' }, status: :created
+      else
+        expire_data_after_sign_in!
+        render json: { message: 'Signed up, but not active.' }, status: :ok
+      end
+    else
+      clean_up_passwords(resource)
+      set_minimum_password_length
+      render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
-  def respond_with(resource, _opts = {})
-    if resource.persisted?
-      cookies["CSRF-TOKEN"] = form_authenticity_token
-      response.set_header('X-CSRF-Token', form_authenticity_token)
-      register_success && return
-    end
-
-    register_failed(resource)
-  end
-
-  def register_success
-    render json: { message: 'Signed up successfully.' }, status: :created
-  end
-
-  def register_failed(resource)
-    error_message = resource.errors.full_messages.uniq
-    render json: { message: error_message }, status: :bad_request
+  def sign_up_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
