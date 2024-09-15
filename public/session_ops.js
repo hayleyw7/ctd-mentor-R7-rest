@@ -21,13 +21,13 @@ function handle_session() {
           password: userPassword1.value
         }
       };
-      fetch(`${users_path}/sign_in`,
-        { method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dataObject)
-        }
-      ).then((response) => {
+      fetch(`${users_path}/sign_in`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataObject)
+      })
+      .then((response) => {
         if (response.status === 201) {
           resultsDiv.innerHTML = '';
           response.json().then((data) => {
@@ -35,10 +35,15 @@ function handle_session() {
             parag.textContent = JSON.stringify(data);
             resultsDiv.appendChild(parag);
           });
+        } else if (response.status === 401) {
+          response.json().then((data) => {
+            alert(`Error: ${data.message}`);
+          });
         } else {
           alert(`Return code ${response.status} ${response.statusText}`);
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
         alert(error);
       });
@@ -49,12 +54,12 @@ function handle_session() {
           password: userPassword.value
         }
       }
-      fetch(users_path,
-        { method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dataObject)
-        }
-      ).then((response) => {
+      fetch(users_path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataObject)
+      })
+      .then((response) => {
         if (response.status === 201) {
           response.json().then((data) => {
             resultsDiv.innerHTML = '';
@@ -77,11 +82,11 @@ function handle_session() {
       if (csrf_cookie) {
         headers = { 'X-CSRF-Token': csrf_cookie }
       }
-      fetch(`${users_path}/sign_out`,
-        { method: 'DELETE',
-          headers: headers
-        }
-      ).then((response) => {
+      fetch(`${users_path}/sign_out`, {
+        method: 'DELETE',
+        headers: headers
+      })
+      .then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
             resultsDiv.innerHTML = '';

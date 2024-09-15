@@ -32,7 +32,7 @@ class Api::V1::FactsController < ApplicationController
       render json: @fact.errors, status: :unprocessable_entity
     end
   end
-d
+
   def destroy
     @fact = Fact.find_by(member_id: params[:member_id], id: params[:id])
     if @fact
