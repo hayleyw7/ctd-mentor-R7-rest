@@ -15,6 +15,15 @@ class Users::SessionsController < Devise::SessionsController
     end
   end
 
+  def destroy
+    if current_user
+      sign_out(current_user)
+      log_out_success
+    else
+      log_out_failure('No one is logged in.')
+    end
+  end
+
   private
 
   def respond_to_on_destroy
@@ -30,6 +39,6 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def log_out_failure
-    render json: { message: 'Hmm, nothing happened.' }, status: :unauthorized
+    render json: { message: 'Error: No one is logged in or there was a database issue.' }, status: :unauthorized
   end
 end
