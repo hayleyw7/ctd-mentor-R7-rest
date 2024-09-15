@@ -268,6 +268,65 @@ function handle_members(event) {
             });
         }
       });
+    } else if (event.target === showFact) {
+      if (!memberId6 || !memberId6.value || !factNumber2 || !factNumber2.value) {
+        alert("Member ID or Fact ID is missing.");
+        return;
+      }
+
+      fetch(`${members_path}/${memberId6.value}/facts/${factNumber2.value}`).then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            resultsDiv.innerHTML = "";
+            let parag = document.createElement("P");
+            parag.textContent = JSON.stringify(data);
+            resultsDiv.appendChild(parag);
+          });
+        } else {
+          response
+            .json()
+            .then((data) => {
+              alert(`Return code ${response.status} ${response.statusText} ${JSON.stringify(data)}`);
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        }
+      });
+    } else if (event.target === deleteFact) {
+      if (!memberId6 || !memberId6.value || !factNumber2 || !factNumber2.value) {
+        alert("Member ID or Fact ID is missing.");
+        return;
+      }
+
+      let headers = { "Content-Type": "application/json" };
+      let csrf_cookie = getCookie("CSRF-TOKEN");
+      if (csrf_cookie) {
+        headers["X-CSRF-Token"] = csrf_cookie;
+      }
+
+      fetch(`${members_path}/${memberId6.value}/facts/${factNumber2.value}`, {
+        method: "DELETE",
+        headers: headers,
+      }).then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            resultsDiv.innerHTML = "";
+            let parag = document.createElement("P");
+            parag.textContent = JSON.stringify(data);
+            resultsDiv.appendChild(parag);
+          });
+        } else {
+          response
+            .json()
+            .then((data) => {
+              alert(`Return code ${response.status} ${response.statusText} ${JSON.stringify(data)}`);
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        }
+      });
     }
   });
 }
